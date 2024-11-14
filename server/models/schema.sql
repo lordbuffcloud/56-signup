@@ -1,0 +1,29 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  squadron VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE board_applications (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  position VARCHAR(50) NOT NULL,
+  status VARCHAR(50) DEFAULT 'pending',
+  board_month VARCHAR(50) NOT NULL,
+  board_year INTEGER NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE package_grades (
+  id SERIAL PRIMARY KEY,
+  application_id INTEGER REFERENCES board_applications(id),
+  grader_id INTEGER REFERENCES users(id),
+  nominee_id INTEGER REFERENCES users(id),
+  score INTEGER NOT NULL,
+  comments TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
